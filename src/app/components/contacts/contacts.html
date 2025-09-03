@@ -1,0 +1,88 @@
+<div class="page-container">
+  <app-header></app-header>
+  
+  <main class="content">
+    <div class="page-header">
+      <h1>Gestion des Contacts</h1>
+      <button class="btn-primary" (click)="showAddForm()">Ajouter un contact</button>
+    </div>
+
+    <div class="form-container" *ngIf="showForm">
+      <h2>{{ isEditing ? 'Modifier' : 'Ajouter' }} un contact</h2>
+      <form (ngSubmit)="saveContact()" #contactForm="ngForm">
+        <div class="form-group">
+          <label for="nom">Nom *:</label>
+          <input 
+            type="text" 
+            id="nom" 
+            name="nom"
+            [(ngModel)]="selectedContact.nom"
+            required
+            class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email *:</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            [(ngModel)]="selectedContact.email"
+            required
+            email
+            class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Message:</label>
+          <textarea 
+            id="message" 
+            name="message"
+            [(ngModel)]="selectedContact.message"
+            rows="4"
+            class="form-control">
+          </textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" [disabled]="!contactForm.valid" class="btn-success">
+            {{ isEditing ? 'Modifier' : 'Ajouter' }}
+          </button>
+          <button type="button" (click)="cancelForm()" class="btn-secondary">Annuler</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of contacts">
+            <td>{{ contact.id }}</td>
+            <td>{{ contact.nom }}</td>
+            <td>{{ contact.email }}</td>
+            <td class="message-cell">{{ contact.message }}</td>
+            <td class="actions">
+              <button (click)="editContact(contact)" class="btn-edit">Modifier</button>
+              <button (click)="deleteContact(contact.id!)" class="btn-delete">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div *ngIf="contacts.length === 0" class="no-data">
+        Aucun contact trouvé
+      </div>
+    </div>
+  </main>
+  
+  <app-footer></app-footer>
+</div>

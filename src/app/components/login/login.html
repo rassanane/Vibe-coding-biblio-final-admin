@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="login-form">
+    <h2>Authentification</h2>
+    
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="identifiant">Identifiant:</label>
+        <input 
+          type="text" 
+          id="identifiant" 
+          name="identifiant"
+          [(ngModel)]="identifiant"
+          #identifiantField="ngModel"
+          required
+          class="form-control">
+      </div>
+      
+      <div class="form-group">
+        <label for="motPasse">Mot de passe:</label>
+        <input 
+          type="password" 
+          id="motPasse" 
+          name="motPasse"
+          [(ngModel)]="motPasse"
+          #motPasseField="ngModel"
+          required
+          class="form-control">
+      </div>
+      
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+      
+      <button 
+        type="submit" 
+        [disabled]="isLoading || !loginForm.valid"
+        class="btn-submit">
+        {{ isLoading ? 'Connexion...' : 'Se connecter' }}
+      </button>
+    </form>
+  </div>
+</div>

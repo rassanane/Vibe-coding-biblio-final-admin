@@ -1,0 +1,93 @@
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #e8e8ff;
+}
+
+.home-content {
+  flex: 1;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.home-logo {
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.welcome-section h1 {
+  color: #4b5ec5;
+  margin-bottom: 20px;
+  font-size: 2.2em;
+}
+
+.welcome-section p {
+  color: #4b5ec5;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.module-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+}
+
+.module-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.module-link {
+  display: block;
+  padding: 30px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.module-link h3 {
+  color: #4b5ec5;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+}
+
+.module-link p {
+  color: #666;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .home-content {
+    padding: 20px;
+  }
+  
+  .welcome-section h1 {
+    font-size: 1.8em;
+  }
+  
+  .modules-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .module-link {
+    padding: 20px;
+  }
+}

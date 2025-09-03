@@ -1,0 +1,105 @@
+<div class="page-container">
+  <app-header></app-header>
+  
+  <main class="content">
+    <div class="page-header">
+      <h1>Gestion des Utilisateurs</h1>
+      <button class="btn-primary" (click)="showAddForm()">Ajouter un utilisateur</button>
+    </div>
+
+    <div class="form-container" *ngIf="showForm">
+      <h2>{{ isEditing ? 'Modifier' : 'Ajouter' }} un utilisateur</h2>
+      <form (ngSubmit)="saveUtilisateur()" #utilisateurForm="ngForm">
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="prenom">Prénom *:</label>
+            <input 
+              type="text" 
+              id="prenom" 
+              name="prenom"
+              [(ngModel)]="selectedUtilisateur.prenom"
+              required
+              class="form-control">
+          </div>
+          
+          <div class="form-group half">
+            <label for="nom">Nom *:</label>
+            <input 
+              type="text" 
+              id="nom" 
+              name="nom"
+              [(ngModel)]="selectedUtilisateur.nom"
+              required
+              class="form-control">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="identifiant">Identifiant *:</label>
+          <input 
+            type="text" 
+            id="identifiant" 
+            name="identifiant"
+            [(ngModel)]="selectedUtilisateur.identifiant"
+            required
+            class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="motPasse">Mot de passe *:</label>
+          <div class="password-field">
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              id="motPasse" 
+              name="motPasse"
+              [(ngModel)]="selectedUtilisateur.motPasse"
+              required
+              class="form-control">
+            <button type="button" class="password-toggle" (click)="togglePasswordVisibility()">
+              {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" [disabled]="!utilisateurForm.valid" class="btn-success">
+            {{ isEditing ? 'Modifier' : 'Ajouter' }}
+          </button>
+          <button type="button" (click)="cancelForm()" class="btn-secondary">Annuler</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Identifiant</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let utilisateur of utilisateurs">
+            <td>{{ utilisateur.id }}</td>
+            <td>{{ utilisateur.prenom }}</td>
+            <td>{{ utilisateur.nom }}</td>
+            <td>{{ utilisateur.identifiant }}</td>
+            <td class="actions">
+              <button (click)="editUtilisateur(utilisateur)" class="btn-edit">Modifier</button>
+              <button (click)="deleteUtilisateur(utilisateur.id!)" class="btn-delete">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div *ngIf="utilisateurs.length === 0" class="no-data">
+        Aucun utilisateur trouvé
+      </div>
+    </div>
+  </main>
+  
+  <app-footer></app-footer>
+</div>

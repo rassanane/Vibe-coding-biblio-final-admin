@@ -1,0 +1,74 @@
+<div class="page-container">
+  <app-header></app-header>
+  
+  <main class="content">
+    <div class="page-header">
+      <h1>Gestion des Auteurs</h1>
+      <button class="btn-primary" (click)="showAddForm()">Ajouter un auteur</button>
+    </div>
+
+    <div class="form-container" *ngIf="showForm">
+      <h2>{{ isEditing ? 'Modifier' : 'Ajouter' }} un auteur</h2>
+      <form (ngSubmit)="saveAuteur()" #auteurForm="ngForm">
+        <div class="form-group">
+          <label for="prenom">Prénom *:</label>
+          <input 
+            type="text" 
+            id="prenom" 
+            name="prenom"
+            [(ngModel)]="selectedAuteur.prenom"
+            required
+            class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="nom">Nom *:</label>
+          <input 
+            type="text" 
+            id="nom" 
+            name="nom"
+            [(ngModel)]="selectedAuteur.nom"
+            required
+            class="form-control">
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" [disabled]="!auteurForm.valid" class="btn-success">
+            {{ isEditing ? 'Modifier' : 'Ajouter' }}
+          </button>
+          <button type="button" (click)="cancelForm()" class="btn-secondary">Annuler</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let auteur of auteurs">
+            <td>{{ auteur.id }}</td>
+            <td>{{ auteur.prenom }}</td>
+            <td>{{ auteur.nom }}</td>
+            <td class="actions">
+              <button (click)="editAuteur(auteur)" class="btn-edit">Modifier</button>
+              <button (click)="deleteAuteur(auteur.id!)" class="btn-delete">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div *ngIf="auteurs.length === 0" class="no-data">
+        Aucun auteur trouvé
+      </div>
+    </div>
+  </main>
+  
+  <app-footer></app-footer>
+</div>

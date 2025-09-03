@@ -1,0 +1,11 @@
+footer {
+    text-align: right;
+    padding: 20px 40px;
+    background-color: #e8e8ff;
+}
+
+.footer-link {
+    font-size: 10px;
+    color: #4b5ec5;
+    text-decoration: underline;
+}

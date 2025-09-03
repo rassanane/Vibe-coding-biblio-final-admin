@@ -1,0 +1,61 @@
+<div class="page-container">
+  <app-header></app-header>
+  
+  <main class="content">
+    <div class="page-header">
+      <h1>Gestion des Maisons d'édition</h1>
+      <button class="btn-primary" (click)="showAddForm()">Ajouter une maison d'édition</button>
+    </div>
+
+    <div class="form-container" *ngIf="showForm">
+      <h2>{{ isEditing ? 'Modifier' : 'Ajouter' }} une maison d'édition</h2>
+      <form (ngSubmit)="saveMaisonEdition()" #maisonForm="ngForm">
+        <div class="form-group">
+          <label for="nom">Nom *:</label>
+          <input 
+            type="text" 
+            id="nom" 
+            name="nom"
+            [(ngModel)]="selectedMaisonEdition.nom"
+            required
+            class="form-control">
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" [disabled]="!maisonForm.valid" class="btn-success">
+            {{ isEditing ? 'Modifier' : 'Ajouter' }}
+          </button>
+          <button type="button" (click)="cancelForm()" class="btn-secondary">Annuler</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let maisonEdition of maisonsEdition">
+            <td>{{ maisonEdition.id }}</td>
+            <td>{{ maisonEdition.nom }}</td>
+            <td class="actions">
+              <button (click)="editMaisonEdition(maisonEdition)" class="btn-edit">Modifier</button>
+              <button (click)="deleteMaisonEdition(maisonEdition.id!)" class="btn-delete">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <div *ngIf="maisonsEdition.length === 0" class="no-data">
+        Aucune maison d'édition trouvée
+      </div>
+    </div>
+  </main>
+  
+  <app-footer></app-footer>
+</div>
