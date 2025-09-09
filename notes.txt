@@ -1,0 +1,61 @@
+
+
+Pour démarrer :
+view terminal : ng serve
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+for the moment, i think, i deactivate CORS verification and i use the proxy.conf.json
+to deploy in prod, i must use the url defined in environment file 
+
+
+
+deploy in server :
+ng build
+
+we will deploy app in nginx
+
+transfer ftp the directory in dist to server
+
+i m not sure ?????
+sudo chmod 777 /var/www/html/projects/angular/bibliotheque-admin/browser
+
+sudo nano /etc/nginx/sites-available/default
+
+
+server {
+    listen 4201;
+    server_name 192.168.1.92;
+
+    root /var/www/html/projects/angular/bibliotheque-admin/browser;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+
+
+  # proxy your backend
+  location /api/ {
+    proxy_pass http://localhost:8080;  # adjust to your backend
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
+
+}
+
+
+sudo systemctl restart nginx
+
+
+Server logs:
+sudo tail -n 200 /var/log/nginx/error.log
+
+
+

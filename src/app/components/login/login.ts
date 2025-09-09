@@ -29,7 +29,12 @@ export class LoginComponent {
 
     this.authService.login(this.identifiant, this.motPasse).subscribe({
       next: (user) => {
-        if (user.identifiant === this.identifiant && user.motPasse === this.motPasse) {
+        console.log(" user.identifiant ", user.identifiant);
+        console.log(" this.identifiant ", this.identifiant);
+        console.log(" user.motPasse ", user.motPasse);
+        console.log(" this.motPasse ", this.motPasse);
+        //if (user.identifiant === this.identifiant && user.motPasse === this.motPasse) {
+        if (user.identifiant !==  null) {
           this.authService.setAuthenticated(true);
           this.router.navigate(['/home']);
         } else {

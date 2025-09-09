@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
 export interface Auteur {
@@ -13,30 +14,32 @@ export interface Auteur {
   providedIn: 'root'
 })
 export class AuteursService {
-  private baseUrl = 'http://localhost:8080/api/auteurs';
-  private headers = new HttpHeaders({
-    'Authorization': 'Basic ' + btoa('rachid:rachid123')
-  });
+  private get headers(): HttpHeaders {
+    const basicAuth = btoa(`${environment.basicAuth.username}:${environment.basicAuth.password}`);
+    return new HttpHeaders({
+      'Authorization': `Basic ${basicAuth}`
+    });
+  }
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Auteur[]> {
-    return this.http.get<Auteur[]>(this.baseUrl, { headers: this.headers });
+    return this.http.get<Auteur[]>(`${environment.apiUrl}/auteurs`, { headers: this.headers });
   }
 
   getById(id: number): Observable<Auteur> {
-    return this.http.get<Auteur>(`${this.baseUrl}/${id}`, { headers: this.headers });
+    return this.http.get<Auteur>(`${environment.apiUrl}/auteurs/${id}`, { headers: this.headers });
   }
 
   create(auteur: Auteur): Observable<Auteur> {
-    return this.http.post<Auteur>(this.baseUrl, auteur, { headers: this.headers });
+    return this.http.post<Auteur>(`${environment.apiUrl}/auteurs`, auteur, { headers: this.headers });
   }
 
   update(id: number, auteur: Auteur): Observable<Auteur> {
-    return this.http.put<Auteur>(`${this.baseUrl}/${id}`, auteur, { headers: this.headers });
+    return this.http.put<Auteur>(`${environment.apiUrl}/auteurs/${id}`, auteur, { headers: this.headers });
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers: this.headers });
+    return this.http.delete<void>(`${environment.apiUrl}/auteurs/${id}`, { headers: this.headers });
   }
 }
