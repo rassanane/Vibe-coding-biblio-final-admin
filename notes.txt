@@ -5,6 +5,7 @@ view terminal : ng serve
 
 
 
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 for the moment, i think, i deactivate CORS verification and i use the proxy.conf.json
 to deploy in prod, i must use the url defined in environment file 
@@ -56,6 +57,52 @@ sudo systemctl restart nginx
 
 Server logs:
 sudo tail -n 200 /var/log/nginx/error.log
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Prod :
+- Adress API (local de l'extérieur) : `src/environments/environment.prod.ts` → `apiUrl` = `http://176.177.13.58:1982/api`.
+- Pour l’utiliser, build en prod:
+ `ng build --configuration=production` puis déployer ces artefacts.
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Docker :
+Je n'ai pas pu l'installer dans mon mac
+je vais utiliser mon serveur ubuntu 
+
+tranférer le projet dans le dossier :
+/var/www/html/projects/Docker/
+puis exécuter les commandes docker
+
+!!!!!!!!!
+suite a eds problemes de compatibilités system, codex a modifié Dockerfile 
+et a créer un nouveau fichier .dockerignore
+
+
+build prod pour accéder a l'api de l'exterieur :
+ng build --configuration=production
+
+- Ajouts: `Dockerfile` (multi‑stage Node build + Nginx) et `nginx.conf` (fallback SPA).
+- Build image: sudo docker build --no-cache -t bibliotheque-admin:latest .
+- Run conteneur: sudo docker run -p 8080:80 bibliotheque-admin:latest
+
+sudo docker tag bibliotheque-admin:latest rassanane/bibliotheque-admin:latest
+
+Se connecter au serveur :
+sudo docker logout && sudo docker login
+
+sudo docker push rassanane/bibliotheque-admin:latest
+
+Supprimer l'image :
+sudo docker image ls
+sudo docker rmi 533fd48a1f9e
+
+!!!!!!!!!!!!!!!!!!!
+vider le répertoie créé sur le serveur pour libérer l'espace
+
 
 
 

@@ -1,0 +1,17 @@
+# Prevent host artifacts from polluting Docker build context
+node_modules
+dist
+out-tsc
+.angular/cache
+
+# VCS and editor files
+.git
+.gitignore
+.vscode
+.DS_Store
+
+# Logs and misc
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.swp
