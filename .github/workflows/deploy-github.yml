@@ -1,0 +1,52 @@
+name: CI-CD to EC2 via Ansible
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch: {}
+
+env:
+  IMAGE_NAME: rassanane/bibliotheque-admin
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push (latest + sha)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:latest
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH to control node & deploy with Ansible
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CONTROL_HOST }}
+          username: ${{ secrets.CONTROL_USER }}
+          key: ${{ secrets.CONTROL_SSH_KEY }}
+          port: ${{ secrets.CONTROL_SSH_PORT || 22 }}
+          script: |
+            set -e
+            ansible-galaxy collection install community.docker
+            ansible-playbook -i ~/hosts ~/ansible/deploy_bibliotheque.yml \
+              -e "image_tag=${{ env.IMAGE_TAG }}"
