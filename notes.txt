@@ -78,15 +78,19 @@ tranférer le projet dans le dossier :
 puis exécuter les commandes docker
 
 !!!!!!!!!
-suite a eds problemes de compatibilités system, codex a modifié Dockerfile 
+suite a des problemes de compatibilités system, codex a modifié Dockerfile 
 et a créer un nouveau fichier .dockerignore
 
 
 build prod pour accéder a l'api de l'exterieur :
+Je l'ai fait dans mon poste de travail MAc avant de transférer :
 ng build --configuration=production
 
 - Ajouts: `Dockerfile` (multi‑stage Node build + Nginx) et `nginx.conf` (fallback SPA).
 - Build image: sudo docker build --no-cache -t bibliotheque-admin:latest .
+voir l'image :
+sudo docker image ls
+Si on veut tester l'application ?
 - Run conteneur: sudo docker run -p 8080:80 bibliotheque-admin:latest
 
 sudo docker tag bibliotheque-admin:latest rassanane/bibliotheque-admin:latest
@@ -101,8 +105,8 @@ sudo docker image ls
 sudo docker rmi 533fd48a1f9e
 
 !!!!!!!!!!!!!!!!!!!
-vider le répertoie créé sur le serveur pour libérer l'espace
-
-
+vider le répertoie créé sur le serveur pour libérer l'espace :
+cd ..
+sudo rm -r bibliotheque-admin/
 
 
